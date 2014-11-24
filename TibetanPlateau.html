@@ -1,75 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?1.29.1"></script>
-    <style type="text/css">
-
-html, body, #map {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.stations, .stations svg {
-  position: absolute;
-}
-
-.stations svg {
-  width: 60px;
-  height: 20px;
-  padding-right: 10px;
-  font: 10px sans-serif;
-}
-
-.stations circle {
-  fill: brown;
-  stroke: black;
-  stroke-width: .5px;
-}
-
-.stations line {
-  fill: brown;
-  stroke: black;
-  stroke-width: 1.5px;
-}
-
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Velocity Viewer</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
     </style>
-  </head>
-  <body>
-    <div id="map"></div>
-    <script type="text/javascript">
-
-// Create the Google Map…
-var map = new google.maps.Map(d3.select("#map").node(), {
-  zoom: 5,
-  center: new google.maps.LatLng(27.700, 85.360),
-  mapTypeId: google.maps.MapTypeId.TERRAIN
-});
-
-for (element in data){
-   var lineSymbol = {
-    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-  };
-
-  var lineCoordinates = [
-    new google.maps.LatLng(element[0], element[1]),
-    new google.maps.LatLng(element[2], element[3])
-  ];
-
-  var line = new google.maps.Polyline({
-    path: lineCoordinates,
-    icons: [{
-      icon: lineSymbol,
-      offset: '100%'
-    }],
-    map: map
-  });
-}
-
-// Load the station data. When the data comes back, create an overlay.
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script>
 
 data = {'AIRP_GPS': [85.359999999999999,
   27.699999999999999,
@@ -4118,90 +4061,51 @@ data = {'AIRP_GPS': [85.359999999999999,
   4.0,
   3.3999999999999999]}
 
-
-  var overlay = new google.maps.OverlayView();
-
-  // Add the container when the overlay is added to the map.
-  overlay.onAdd = function() {
-    var layer = d3.select(this.getPanes().overlayLayer).append("div")
-        .attr("class", "stations");
-
-    // Draw each marker as a separate SVG element.
-    overlay.draw = function() {
-      // var projection = this.getProjection(),
-      //     padding = 0;
-
-      // var marker = layer.selectAll("svg")
-      //     .data(d3.entries(data))
-      //     .each(transform) // update existing markers
-      //     .enter().append("svg:svg")
-      //     .each(transform)
-      //     .attr("class", "marker");
-
-      // // Add origin circle.
-      // marker.append("svg:circle")
-      //     .attr("r",0)
-      //     .attr("cx", padding)
-      //     .attr("cy", padding);
-
-      // // Add line
-      // marker.append("svg:line")
-      //   .attr("x1", function(d) {
-      //     if(d.value[3] > 0){
-      //       return d.value[2] * 2;
-      //     } else {
-      //       return 0;
-      //     }
-      //   })
-      //   .attr("y1", function(d) {
-      //     if(d.value[2] > 0){
-      //       return d.value[3] * 2;
-      //     } else {
-      //       return 0;
-      //     }
-      //   })
-      //   .attr("x2", function(d) {
-      //     if(d.value[3] < 0){
-      //       return d.value[2] * 2;
-      //     } else {
-      //       return 0;
-      //     }
-      //   })
-      //   .attr("y2", function(d) {
-      //     if(d.value[2] < 0){
-      //       return d.value[3] * 2;
-      //     } else {
-      //       return 0;
-      //     }
-      //   });
-
-      // // Add arrow tip
-      // //marker.append("svg:path")  // Fixed.
-      // //  .attr("d", d3.svg.symbol.type("triangle-up"));
-      // //  .style("fill", "brown");
-
-      // // Add a label.
-      // //marker.append("svg:text")
-      // //    .attr("x", padding + 7)
-      // //    .attr("y", padding)
-      // //    .attr("dy", ".31em")
-      // //    .text(function(d) { return d.key; });
-
-
-
-      function transform(d) {
-        d = new google.maps.LatLng(d.value[1], d.value[0]);
-        d = projection.fromLatLngToDivPixel(d);
-        return d3.select(this)
-            .style("left", (d.x - padding) + "px")
-            .style("top", (d.y - padding) + "px");
-      }
-    };
+function initialize() {
+  var mapOptions = {
+    zoom: 5,
+    center: new google.maps.LatLng(27.700, 85.360),
+    mapTypeId: google.maps.MapTypeId.TERRAIN
   };
 
-  // Bind our overlay to the map
-  overlay.setMap(map);
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+  var lineSymbol = {
+    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+    scale: 2,
+    strokeOpacity: 1,
+    strokeWeight: 2
+  };
+
+  // Draw Arrows
+  for (key in data){
+
+    var vector = data[key];
+
+    var lineCoordinates = [
+      new google.maps.LatLng(vector[1], vector[0]),
+      new google.maps.LatLng(vector[1] + (vector[3] / 15), vector[0] + (vector[2] / 15))
+    ];
+
+    var line = new google.maps.Polyline({
+      path: lineCoordinates,
+      icons: [{
+        icon: lineSymbol,
+        offset: '100%'
+      }],
+      map: map,
+      strokeColor: 'brown',
+      strokeWeight: 1.5
+    });
+  }
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
   </body>
 </html>
