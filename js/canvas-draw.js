@@ -25,7 +25,18 @@ function drawArrows(data_file, scale_param, color) {
             new google.maps.LatLng(vector[1] + (vector[3] / scale_param), vector[0] + (vector[2] / scale_param))
         ];
 
-        var line = new google.maps.Polyline({
+        // var line = new google.maps.Polyline({
+        //     path: lineCoordinates,
+        //     icons: [{
+        //         icon: lineSymbol,
+        //         offset: '100%'
+        //     }],
+        //     map: map,
+        //     strokeColor: color,
+        //     strokeWeight: 1.5
+        // });
+
+        lines.push(new google.maps.Polyline({
             path: lineCoordinates,
             icons: [{
                 icon: lineSymbol,
@@ -34,7 +45,7 @@ function drawArrows(data_file, scale_param, color) {
             map: map,
             strokeColor: color,
             strokeWeight: 1.5
-        });
+        }));
 
         //google.maps.event.addListener(line, "mouseover", line.setOptions({strokeOpacity: 0.8}));
     }
