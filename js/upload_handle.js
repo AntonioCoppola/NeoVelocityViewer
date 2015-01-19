@@ -1,6 +1,7 @@
 var app = angular.module('velocity-viewer', []);
 var data_files = {};
 var lines = [];
+var lines_data = [];
 var scale_param = 15;
 
 function clearInput(file_input) {

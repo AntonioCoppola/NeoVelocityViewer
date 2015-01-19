@@ -13,7 +13,16 @@ var mapOptions = {
 
 var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
+function showInfo() {
+    this.infowindow.open(map);
+}
+
+function hideInfo() {
+    this.infowindow.close();
+}
+
 function drawArrows(data_file, scale_param, color) {
+
     // Draw Arrows
     for (var key in data_file) {
 
@@ -25,17 +34,7 @@ function drawArrows(data_file, scale_param, color) {
             new google.maps.LatLng(vector[1] + (vector[3] / scale_param), vector[0] + (vector[2] / scale_param))
         ];
 
-        // var line = new google.maps.Polyline({
-        //     path: lineCoordinates,
-        //     icons: [{
-        //         icon: lineSymbol,
-        //         offset: '100%'
-        //     }],
-        //     map: map,
-        //     strokeColor: color,
-        //     strokeWeight: 1.5
-        // });
-
+        // Generate polylines
         lines.push(new google.maps.Polyline({
             path: lineCoordinates,
             icons: [{
@@ -47,10 +46,20 @@ function drawArrows(data_file, scale_param, color) {
             strokeWeight: 1.5
         }));
 
-        //google.maps.event.addListener(line, "mouseover", line.setOptions({strokeOpacity: 0.8}));
+        // Content string for info window
+        var contentString = '<div id="content">' + '<p><strong>Station Name: </strong>' + key.toUpperCase() +
+            '</p><p><strong>Longitude: </strong>' + vector[0] + '</p><p><strong>Latitude: </strong>' +
+            vector[1] + '</p>' + '</div>';
+
+        // Set line properties
+        lines[lines.length - 1].name = key;
+        lines[lines.length - 1].infowindow = new google.maps.InfoWindow({
+            content: contentString,
+            position: lineCoordinates[0]
+        });
+
+        google.maps.event.addListener(lines[lines.length - 1], "mouseover", showInfo);
+        google.maps.event.addListener(lines[lines.length - 1], "mouseout", hideInfo);
+
     }
 }
-
-//google.maps.event.addDomListener(window, 'load', initialize);
-
-//drawArrows();
