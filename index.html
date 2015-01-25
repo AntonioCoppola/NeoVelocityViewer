@@ -17,12 +17,16 @@
     <link rel="stylesheet" href="css/starter-template.css">
     <link rel="stylesheet" href="css/close.css">
     <link rel="stylesheet" href="bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css">
+    <link rel="stylesheet" href="bower_components/spectrum/spectrum.css">
+
 
     <!-- Custom CSS -->
     <style>
     .slider-selection {
         background: #BABABA;
     }
+
+    .gm-style-iw + div {display: none;}
     </style>
 
     <!-- Load JS dependencies -->
@@ -34,6 +38,7 @@
     <script src="bower_components/modernizr/modernizr.js"></script>
     <script src="bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js"></script>
     <script src="bower_components/bootstrap-file-input/bootstrap.file-input.js"></script>
+    <script src="bower_components/spectrum/spectrum.js"></script>
 
 </head>
 
@@ -51,8 +56,9 @@
 
 <body>
     <div id="map-canvas"></div>
-    <script src="js/canvas-draw.js"></script>
+    <script src="js/canvas_draw.js"></script>
     <script src="js/upload_handle.js"></script>
+    <script src="js/color_picker.js"></script>
 </body>
 
 <!-- Data Modal -->
@@ -68,7 +74,8 @@
                 <h6>Active Data Files</h6>
                 <div class="container">
                     <ul>
-                        <li ng-repeat="key in data_keys">{{ key }}
+                        <li ng-repeat="key in data_keys" ng-repeat-complete="" id="{{key}}">{{ key }}
+                            <input type='text' class="colorpicker"/>
                             <button type="button" class="close_icon" aria-label="Close" ng-click="removeData(key)"><span aria-hidden="true">&times;</span>
                             </button>
                         </li>
