@@ -1,3 +1,6 @@
+/*
+Logic for station marker toggling. Some work needs to be done to consolidate redundant code.
+*/
 function showInfo() {
     this.infowindow.open(map);
 }

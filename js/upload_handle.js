@@ -7,44 +7,10 @@ function clearInput(file_input) {
     }
 }
 
-function updateMap() {
-
-    // Update mapOptions
-    mapOptions.zoom = map.zoom;
-    mapOptions.center = map.center;
-    mapOptions.mapTypeId = map.mapTypeId;
-
-    // Clear lines array
-    // while (lines.length > 0) {
-    //     lines.pop();
-    // }
-    for (var member in lines_dict) delete lines_dict[member];
-
-    // Instantiate new map
-    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    activateDragZoom();
-
-    // Redraw lines
-    for (var key in Object.keys(data_files)) {
-        drawArrows(data_files[Object.keys(data_files)[key]], scale_param,
-            "#" + colors_array[Object.keys(data_files)[key]].toHex());
-    }
-}
-
 
 app.controller('data_ctrl', function($scope) {
 
     $scope.test_array = ['a', 'b', 'c'];
-
-    // // Color picker updating
-    // $scope.$on('repeatFinished', function(ngRepeatFinishedEvent) {
-
-    //     alert('hi');
-
-    //     // $(".colorpicker").spectrum({
-    //     //     color: "#f00"
-    //     // });
-    // });
 
     // Load JSON function
     $scope.loadJSON = function($fileContent) {
@@ -79,7 +45,7 @@ app.controller('data_ctrl', function($scope) {
             $scope.data_keys = Object.keys(data_files);
 
             // Draw arrows
-            drawArrows($scope.data_points, scale_param, '#A52A2A');
+            drawArrows($scope.filename, $scope.data_points, scale_param, '#A52A2A');
 
             // Garbage removal
             clearInput($('#filebox')[0]);
@@ -93,27 +59,16 @@ app.controller('data_ctrl', function($scope) {
     // Remove data function
     $scope.removeData = function(data_key) {
 
-        // Update mapOptions
-        mapOptions.zoom = map.zoom;
-        mapOptions.center = map.center;
-        mapOptions.mapTypeId = map.mapTypeId;
-
         // Delete key
         delete data_files[data_key];
         $scope.data_keys = Object.keys(data_files);
 
-        // Clear lines array
-        // while (lines.length > 0) {
-        //     lines.pop();
-        // }
-        for (var member in lines_dict) delete lines_dict[member];
-
-
-        // Update map
-        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        activateDragZoom();
-        for (var key in Object.keys(data_files)) {
-            drawArrows(data_files[Object.keys(data_files)[key]], scale_param, 'brown');
+        // Clear lines dictionary
+        for (var member in lines_dict) {
+            if (lines_dict[member].filename == data_key) {
+                lines_dict[member].setMap(null);
+                delete lines_dict[member];
+            }
         }
     };
 

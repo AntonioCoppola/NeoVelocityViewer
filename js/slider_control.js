@@ -1,11 +1,19 @@
-var length_refresh = function() {
-
-    // Update scale_param
+function length_refresh() {
+    
     scale_param = 31 - slider.getValue();
-    // Update map
-    updateMap();
 
-};
+    for (var lineKey in lines_dict) {
+
+        var marker = lines_dict[lineKey];
+        var vector = marker.vector;
+        var lineCoordinates = [
+            new google.maps.LatLng(vector[1], vector[0]),
+            new google.maps.LatLng(vector[1] + (vector[3] / scale_param), vector[0] + (vector[2] / scale_param))
+        ];
+
+        lines_dict[lineKey].setPath(lineCoordinates);
+    }
+}
 
 var slider = $('.slider_bs').slider({
         formatter: function(value) {

@@ -10,8 +10,15 @@ app.directive('ngRepeatComplete', function($timeout) {
                     clickoutFiresChange: true,
                     change: function(color) {
 
-                        colors_array[attrs.id] = color;
-                        updateMap();
+                        for (var lineKey in lines_dict) {
+
+                            var marker = lines_dict[lineKey];
+
+                            if (marker.filename == attrs.id) {
+                                lines_dict[lineKey].realColor = "#" + color.toHex();
+                                setMarkerStatus.apply(lines_dict[lineKey], [marker.toggled]);
+                            }
+                        }
 
                     }
                 });
