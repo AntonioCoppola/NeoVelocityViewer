@@ -22,7 +22,7 @@ app.controller('data_ctrl', function($scope) {
         if ($scope.filename.indexOf(".sta.data") == -1) {
             alert("The input file extension must be sta.data.");
             clearInput($('#filebox')[0]);
-        } else if ($.inArray($scope.filename, Object.keys(data_files)) > -1) {
+        } else if ($.inArray($scope.filename, data_files) > -1) {
             alert("This data file is already loaded.");
             clearInput($('#filebox')[0]);
         } else {
@@ -33,16 +33,20 @@ app.controller('data_ctrl', function($scope) {
             $scope.station_names = [];
             for (var i in $scope.rows) {
                 $scope.row = $scope.rows[i].split("\t");
-                $scope.data_points[$scope.row[9]] = [parseFloat($scope.row[0]), parseFloat($scope.row[1]), parseFloat($scope.row[2]), parseFloat($scope.row[3]), parseFloat($scope.row[4]), parseFloat($scope.row[5])];
+                $scope.data_points[$scope.row[9]] = [parseFloat($scope.row[0]), parseFloat($scope.row[1]),
+                    parseFloat($scope.row[2]), parseFloat($scope.row[3]),
+                    parseFloat($scope.row[4]), parseFloat($scope.row[5]),
+                    parseFloat($scope.row[8])
+                ];
                 if (!$.inArray($scope.row[9], $scope.station_names)) {
                     $scope.station_names.push($scope.row[9]);
                 }
             }
 
             // Store data
-            data_files[$scope.filename] = $scope.data_points;
-            colors_array[$scope.filename] = tinycolor('#A52A2A');
-            $scope.data_keys = Object.keys(data_files);
+            data_files.push($scope.filename);
+            // colors_array[$scope.filename] = tinycolor('#A52A2A');
+            $scope.data_keys = data_files;
 
             // Draw arrows
             drawArrows($scope.filename, $scope.data_points, scale_param, '#A52A2A');
@@ -60,8 +64,10 @@ app.controller('data_ctrl', function($scope) {
     $scope.removeData = function(data_key) {
 
         // Delete key
-        delete data_files[data_key];
-        $scope.data_keys = Object.keys(data_files);
+        var index = data_files.indexOf(data_key);
+        if (index > -1) {
+            data_files.splice(index, 1);
+        }
 
         // Clear lines dictionary
         for (var member in lines_dict) {

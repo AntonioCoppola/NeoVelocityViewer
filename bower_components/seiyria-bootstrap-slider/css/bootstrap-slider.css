@@ -29,7 +29,7 @@
   position: relative;
 }
 .slider.slider-horizontal {
-  width: 210px;
+  width: 150px;
   height: 20px;
 }
 .slider.slider-horizontal .slider-track {

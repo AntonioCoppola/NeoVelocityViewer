@@ -12,6 +12,8 @@ function hideInfo() {
 function setMarkerStatus(toggleStatus) {
     this.toggled = toggleStatus;
     var contentString = '<div id="content">' + '<p><strong>Station Name: </strong>' + this.name +
+            '</p><p><strong>North Velocity: </strong>' + Number(this.vector[3]).toFixed(2) +
+            '</p><p><strong>East Velocity: </strong>' + Number(this.vector[2]).toFixed(2) +
         '</p><p><strong>Longitude: </strong>' + this.infowindow.position.D.toFixed(2) + '</p><p><strong>Latitude: </strong>' +
         this.infowindow.position.k.toFixed(2) + '</p><p><strong>Toggled: </strong>' +
         toTitleCase(this.toggled.toString()) +
@@ -42,6 +44,8 @@ function toggleSelected() {
     this.toggled = !this.toggled;
 
     var contentString = '<div id="content">' + '<p><strong>Station Name: </strong>' + this.name +
+            '</p><p><strong>North Velocity: </strong>' + Number(this.vector[3]).toFixed(2) +
+            '</p><p><strong>East Velocity: </strong>' + Number(this.vector[2]).toFixed(2) +
         '</p><p><strong>Longitude: </strong>' + this.infowindow.position.D.toFixed(2) + '</p><p><strong>Latitude: </strong>' +
         this.infowindow.position.k.toFixed(2) + '</p><p><strong>Toggled: </strong>' +
         toTitleCase(this.toggled.toString()) +

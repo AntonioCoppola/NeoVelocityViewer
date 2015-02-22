@@ -1,5 +1,5 @@
 function length_refresh() {
-    
+
     scale_param = 31 - slider.getValue();
 
     for (var lineKey in lines_dict) {

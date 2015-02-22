@@ -686,7 +686,7 @@
     $.fn.bootstrapSwitch.Constructor = BootstrapSwitch;
     return $.fn.bootstrapSwitch.defaults = {
       state: true,
-      size: null,
+      size: 'mini',
       animate: true,
       disabled: false,
       readonly: false,
@@ -695,8 +695,8 @@
       radioAllOff: false,
       onColor: "primary",
       offColor: "default",
-      onText: "Stations ON",
-      offText: "Stations OFF",
+      onText: "1",
+      offText: "0",
       labelText: "&nbsp;",
       handleWidth: "auto",
       labelWidth: "auto",
