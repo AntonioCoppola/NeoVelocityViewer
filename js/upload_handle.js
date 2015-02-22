@@ -1,10 +1,3 @@
-var app = angular.module('velocity-viewer', []);
-var data_files = {};
-var lines = [];
-var lines_data = [];
-var colors_array = {};
-var scale_param = 15;
-
 function clearInput(file_input) {
     try {
         file_input.value = null;
@@ -22,12 +15,14 @@ function updateMap() {
     mapOptions.mapTypeId = map.mapTypeId;
 
     // Clear lines array
-    while (lines.length > 0) {
-        lines.pop();
-    }
+    // while (lines.length > 0) {
+    //     lines.pop();
+    // }
+    for (var member in lines_dict) delete lines_dict[member];
 
     // Instantiate new map
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    activateDragZoom();
 
     // Redraw lines
     for (var key in Object.keys(data_files)) {
@@ -39,15 +34,17 @@ function updateMap() {
 
 app.controller('data_ctrl', function($scope) {
 
-    // Color picker updating
-    $scope.$on('repeatFinished', function(ngRepeatFinishedEvent) {
-        
-        alert('hi');
+    $scope.test_array = ['a', 'b', 'c'];
 
-        // $(".colorpicker").spectrum({
-        //     color: "#f00"
-        // });
-    });
+    // // Color picker updating
+    // $scope.$on('repeatFinished', function(ngRepeatFinishedEvent) {
+
+    //     alert('hi');
+
+    //     // $(".colorpicker").spectrum({
+    //     //     color: "#f00"
+    //     // });
+    // });
 
     // Load JSON function
     $scope.loadJSON = function($fileContent) {
@@ -67,9 +64,13 @@ app.controller('data_ctrl', function($scope) {
             // Parse data
             $scope.rows = $fileContent.split(/\n/);
             $scope.data_points = {};
+            $scope.station_names = [];
             for (var i in $scope.rows) {
                 $scope.row = $scope.rows[i].split("\t");
                 $scope.data_points[$scope.row[9]] = [parseFloat($scope.row[0]), parseFloat($scope.row[1]), parseFloat($scope.row[2]), parseFloat($scope.row[3]), parseFloat($scope.row[4]), parseFloat($scope.row[5])];
+                if (!$.inArray($scope.row[9], $scope.station_names)) {
+                    $scope.station_names.push($scope.row[9]);
+                }
             }
 
             // Store data
@@ -102,12 +103,15 @@ app.controller('data_ctrl', function($scope) {
         $scope.data_keys = Object.keys(data_files);
 
         // Clear lines array
-        while (lines.length > 0) {
-            lines.pop();
-        }
+        // while (lines.length > 0) {
+        //     lines.pop();
+        // }
+        for (var member in lines_dict) delete lines_dict[member];
+
 
         // Update map
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        activateDragZoom();
         for (var key in Object.keys(data_files)) {
             drawArrows(data_files[Object.keys(data_files)[key]], scale_param, 'brown');
         }
