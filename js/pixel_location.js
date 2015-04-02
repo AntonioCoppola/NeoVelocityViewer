@@ -1,4 +1,6 @@
 /*
+Get LatLng coordinates from drag selector action.
+
 This function was contributed by Marius Manastireanu @ StackOverflow. Reference URL:
 http://stackoverflow.com/questions/25219346/how-to-convert-from-x-y-screen-coordinates-to-latlng-google-maps
 */

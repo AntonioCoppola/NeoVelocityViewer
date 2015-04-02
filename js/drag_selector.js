@@ -1,3 +1,7 @@
+/*
+Logic for drag selector.
+*/
+
 function activateDragZoom() {
     map.enableKeyDragZoom({
         key: "shift",

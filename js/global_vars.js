@@ -1,11 +1,12 @@
 /*
-Global variables for the application
+Global variables for the application.
 */
 
 // Basic app settings
 var app = angular.module('velocity-viewer', []);
 var data_files = [];
 var lines_dict = {};
+var ctaLayer = null;
 // var colors_array = {};
 var scale_param = 15;
 var selector_mode_on = true;

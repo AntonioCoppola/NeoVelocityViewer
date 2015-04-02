@@ -58,17 +58,21 @@ function drawArrows(filename, data_file, scale_param, color) {
         lines_dict[key.toUpperCase()].realColor = color;
         lines_dict[key.toUpperCase()].toggled = toggleValue;
 
-        // Content string for info window
-        var contentString = '<div id="content">' + '<p><strong>Station Name: </strong>' + key.toUpperCase() +
-            '</p><p><strong>North Velocity: </strong>' + Number(vector[3]).toFixed(2) +
-            '</p><p><strong>East Velocity: </strong>' + Number(vector[2]).toFixed(2) +
-            '</p><p><strong>Longitude: </strong>' + Number(vector[0]).toFixed(2) + '</p><p><strong>Latitude: </strong>' +
-            Number(vector[1]).toFixed(2) + '</p><p><strong>Toggled: </strong>' +
-            toTitleCase(lines_dict[key.toUpperCase()].toggled.toString()) +
-            '</p></div>';
+        /*
+        Old logic for info windows
+        */
+        // var contentString = '<div id="content">' + '<p><strong>Station Name: </strong>' + key.toUpperCase() +
+        //     '</p><p><strong>North Velocity: </strong>' + Number(vector[3]).toFixed(2) +
+        //     '</p><p><strong>East Velocity: </strong>' + Number(vector[2]).toFixed(2) +
+        //     '</p><p><strong>North Sigma: </strong>' + Number(vector[5]).toFixed(2) +
+        //     '</p><p><strong>East Sigma: </strong>' + Number(vector[4]).toFixed(2) +
+        //     '</p><p><strong>Longitude: </strong>' + Number(vector[0]).toFixed(2) + '</p><p><strong>Latitude: </strong>' +
+        //     Number(vector[1]).toFixed(2) + '</p><p><strong>Toggled: </strong>' +
+        //     toTitleCase(lines_dict[key.toUpperCase()].toggled.toString()) +
+        //     '</p></div>';
 
         lines_dict[key.toUpperCase()].infowindow = new google.maps.InfoWindow({
-            content: contentString,
+            //content: contentString,
             position: lineCoordinates[0]
         });
 

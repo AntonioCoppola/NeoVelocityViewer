@@ -1,3 +1,7 @@
+/*
+Logic for color picker.
+*/
+
 app.directive('ngRepeatComplete', function($timeout) {
     return function(scope, element, attrs) {
 

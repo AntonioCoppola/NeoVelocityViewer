@@ -1,3 +1,8 @@
+/*
+All logic having to do with the vector scale slider.
+*/
+
+// Refresh length of vectors on display
 function length_refresh() {
 
     scale_param = 31 - slider.getValue();
@@ -15,6 +20,8 @@ function length_refresh() {
     }
 }
 
+
+// Length slider: environment variable
 var slider = $('.slider_bs').slider({
         formatter: function(value) {
             return 'Current value: ' + value;
@@ -23,6 +30,8 @@ var slider = $('.slider_bs').slider({
     .on('slideStop', length_refresh)
     .data('slider');
 
+
+// Ready selector when page is loaded
 $(document).ready(function() {
 
     $("[name='my-checkbox']").bootstrapSwitch();

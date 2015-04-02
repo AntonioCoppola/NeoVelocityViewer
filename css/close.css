@@ -18,6 +18,9 @@
 html, body {
     height: 100%;
 }
+.inl {
+    display: inline;
+}
 /*body {
     padding-top: 50px;
 }*/

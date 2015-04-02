@@ -1,3 +1,8 @@
+/*
+Logical handles and directives for uploading files to memory.
+*/
+
+// Clear memory
 function clearInput(file_input) {
     try {
         file_input.value = null;
@@ -7,10 +12,8 @@ function clearInput(file_input) {
     }
 }
 
-
+// Main logical controller for file uploads
 app.controller('data_ctrl', function($scope) {
-
-    $scope.test_array = ['a', 'b', 'c'];
 
     // Load JSON function
     $scope.loadJSON = function($fileContent) {
@@ -80,6 +83,9 @@ app.controller('data_ctrl', function($scope) {
 
 });
 
+
+// File reading directive. Do not alter this if possible;
+// rather make changes to the controller.
 app.directive('onReadFile', function($parse) {
     return {
         restrict: 'A',

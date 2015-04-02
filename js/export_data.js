@@ -1,3 +1,7 @@
+/*
+Logic to export STA.DATA.
+*/
+
 function exportData() {
 
     if (data_files.length === 0) {

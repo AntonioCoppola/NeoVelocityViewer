@@ -2,7 +2,6 @@
 <html ng-app='velocity-viewer'>
 
 <head>
-
     <!-- Basic setup -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +10,6 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.png">
     <title>Velocity Viewer</title>
-
     <!-- Load CSS dependencies -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/starter-template.css">
@@ -20,12 +18,6 @@
     <link rel="stylesheet" href="bower_components/spectrum/spectrum.css">
     <link rel="stylesheet" href="bower_components/slider-menu/css/BootSideMenu.css">
     <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css">
-
-
-    <!-- Custom CSS -->
-    <style>
-    </style>
-
     <!-- Load JS dependencies -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
     <script src="bower_components/keydragzoom.js"></script>
@@ -39,22 +31,15 @@
     <script src="bower_components/spectrum/spectrum.js"></script>
     <script src="bower_components/slider-menu/js/BootSideMenu.js"></script>
     <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
-
 </head>
-
-
 <!-- Page body with app logic -->
 
 <body>
-
     <div id="map-canvas"></div>
-
     <div class="container-fluid" id="main" ng-controller="data_ctrl">
         <div class="row">
             <div class="col-xs-2" id="left">
-
                 <h3 class="text-center"><a href="" data-toggle="modal" data-target="#aboutModal">Velocity Viewer</a></h3>
-
                 <hr>
                 <h6 class="text-center">Data</h6>
                 <div class="text-center">
@@ -63,32 +48,54 @@
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exportModal">Export Data</button>
                     </div>
                 </div>
-
                 <hr>
                 <h6 class="text-center">Vector Scale</h6>
                 <div>
                     <input class="slider_bs" data-slider-id="length" type="text" data-slider-min="0" data-slider-max="30" data-slider-step="1" data-slider-value="15" />
                 </div>
                 <hr>
-
                 <div class="text-center">
                     <h6 style="display: inline">Selector Mode:  </h6>
                     <input type="checkbox" class="pull-right" name="my-checkbox" checked>
                 </div>
-
-
                 <hr>
-
+                <div class="text-center">
+                    <h6>Station Info</h6>
+                </div>
+                <div class="text-left inl">
+                    <h6 class="text-left inl">Station Name: </h6>
+                    <p id="station-name" class="text-left inl"> — </p>
+                    <br>
+                    <h6 class="text-left inl">North Velocity: </h6>
+                    <p id="north-velocity" class="text-left inl"> — </p>
+                    <br>
+                    <h6 class="text-left inl">East Velocity: </h6>
+                    <p id="east-velocity" class="text-left inl"> — </p>
+                    <br>
+                    <h6 class="text-left inl">North Sigma: </h6>
+                    <p id="north-sigma" class="text-left inl"> — </p>
+                    <br>
+                    <h6 class="text-left inl">East Sigma: </h6>
+                    <p id="east-sigma" class="text-left inl"> — </p>
+                    <br>
+                    <h6 class="text-left inl">Longitude: </h6>
+                    <p id="longitude" class="text-left inl"> — </p>
+                    <br>
+                    <h6 class="text-left inl">Latitude: </h6>
+                    <p id="latitude" class="text-left inl"> — </p>
+                    <br>
+                    <h6 class="text-left inl">Toggled: </h6>
+                    <p id="toggled" class="text-left inl"> — </p>
+                    <br>
+                </div>
+                <hr>
             </div>
             <div class="col-xs-10">
             </div>
-
         </div>
     </div>
-
-
-
     <script src="js/global_vars.js"></script>
+    <script src="js/addKML.js"></script>
     <script src="js/marker_logic.js"></script>
     <script src="js/pixel_location.js"></script>
     <script src="js/drag_selector.js"></script>
@@ -97,10 +104,8 @@
     <script src="js/color_picker.js"></script>
     <script src="js/export_data.js"></script>
 </body>
-
 <!-- General Modals Div -->
 <div class="container" ng-controller="data_ctrl">
-
     <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -123,15 +128,21 @@
                     <h6>Load STA.DATA File</h6>
                     <input type="file" id="filebox" on-read-file="loadJSON($fileContent)">
                     <br>
+                    <h6>Add KML Layer</h6>
+                    Layer URL:  <input type="text" id="kml-url" value="">
+                    <br>
+                    <br>
                 </div>
-
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default" onclick="clearKML()">Clear KML</button>
+                        <button type="button" class="btn btn-default" onclick="addKML()">Load KML</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Export Modal -->
     <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -154,8 +165,6 @@
             </div>
         </div>
     </div>
-
-
     <!-- About Modal -->
     <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -176,9 +185,7 @@
             </div>
         </div>
     </div>
-
 </div>
-
 <!-- Late-loading JS -->
 <script src="js/slider_control.js"></script>
 
