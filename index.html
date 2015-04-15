@@ -94,15 +94,6 @@
             </div>
         </div>
     </div>
-    <script src="js/global_vars.js"></script>
-    <script src="js/addKML.js"></script>
-    <script src="js/marker_logic.js"></script>
-    <script src="js/pixel_location.js"></script>
-    <script src="js/drag_selector.js"></script>
-    <script src="js/canvas_draw.js"></script>
-    <script src="js/upload_handle.js"></script>
-    <script src="js/color_picker.js"></script>
-    <script src="js/export_data.js"></script>
 </body>
 <!-- General Modals Div -->
 <div class="container" ng-controller="data_ctrl">
@@ -115,7 +106,7 @@
                     <h4 class="modal-title" id="dataModalLabel">Manage Data</h4>
                 </div>
                 <div class="container">
-                    <h6>Active Data Files</h6>
+                    <h6>Active Station Files</h6>
                     <div class="container">
                         <ul>
                             <li ng-repeat="key in data_keys" ng-repeat-complete="" id="{{key}}">{{ key }}
@@ -128,15 +119,26 @@
                     <h6>Load STA.DATA File</h6>
                     <input type="file" id="filebox" on-read-file="loadJSON($fileContent)">
                     <br>
-                    <h6>Add KML Layer</h6>
+                    <!-- <h6>Add KML Layer</h6>
                     Layer URL:  <input type="text" id="kml-url" value="">
-                    <br>
+                    <br> -->
+                    <h6>Active Segment Files</h6>
+                    <div class="container">
+                        <ul>
+                            <li ng-repeat="key in segment_keys" ng-repeat-complete="" id="{{key}}">{{ key }}
+                                <button type="button" class="close_icon" aria-label="Close" ng-click="removeSegment(key)"><span aria-hidden="true">&times;</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <h6>Load Segment File</h6>
+                    <input type="file" id="segmentbox" on-read-file="loadSegment($fileContent)">
                     <br>
                 </div>
                 <div class="modal-footer">
                     <div class="btn-group btn-group-sm" role="group" aria-label="...">
-                        <button type="button" class="btn btn-default" onclick="clearKML()">Clear KML</button>
-                        <button type="button" class="btn btn-default" onclick="addKML()">Load KML</button>
+                        <!-- <button type="button" class="btn btn-default" onclick="clearKML()">Clear KML</button> -->
+                        <!-- <button type="button" class="btn btn-default" onclick="addKML()">Load KML</button> -->
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -186,7 +188,18 @@
         </div>
     </div>
 </div>
-<!-- Late-loading JS -->
+
+<!-- JS Logic -->
+<script src="js/global_vars.js"></script>
+<script src="js/add_KML.js"></script>
+<script src="js/marker_logic.js"></script>
+<script src="js/pixel_location.js"></script>
+<script src="js/drag_selector.js"></script>
+<script src="js/draw_vectors.js"></script>
+<script src="js/draw_segments.js"></script>
+<script src="js/upload_data.js"></script>
+<script src="js/color_picker.js"></script>
+<script src="js/export_data.js"></script>
 <script src="js/slider_control.js"></script>
 
 </html>
